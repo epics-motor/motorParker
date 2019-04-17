@@ -5,6 +5,9 @@ include $(TOP)/configure/CONFIG
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 #=============================
 
+# The following are used for debugging messages.
+#!USR_CXXFLAGS += -DDEBUG
+
 #=============================
 # Build the IOC application
 
@@ -16,10 +19,21 @@ DBD += parker.dbd
 parker_DBD += base.dbd
 
 # Include dbd files from all support applications:
-#parker_DBD += xxx.dbd
+#ifdef ASYN
+parker_DBD += asyn.dbd
+#endif
+parker_DBD += motorSupport.dbd
+parker_DBD += devParker.dbd
 
 # Add all the support libraries needed by this IOC
-#parker_LIBS += xxx
+parker_LIBS += parker
+parker_LIBS += motor
+#ifdef ASYN
+parker_LIBS += asyn
+#endif
+#ifdef SNCSEQ
+parker_LIBS += seq pv
+#endif
 
 # parker_registerRecordDeviceDriver.cpp derives from parker.dbd
 parker_SRCS += parker_registerRecordDeviceDriver.cpp

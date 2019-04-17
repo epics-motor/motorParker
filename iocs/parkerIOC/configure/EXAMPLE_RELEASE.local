@@ -1,0 +1,6 @@
+# Use the following lines if motorParker was built inside motor
+MOTOR=
+-include $(MOTOR)/configure/RELEASE
+# Use the following lines if motorParker was built outside motor
+#!MOTOR_PARKER=
+#!-include $(MOTOR_PARKER)/configure/RELEASE.local
