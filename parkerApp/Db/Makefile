@@ -12,6 +12,13 @@ include $(TOP)/configure/CONFIG
 # databases, templates, substitutions like this
 #DB += xxx.db
 
+DB += ACRAuxBi.template
+DB += ACRAuxBoRBV.template
+DB += ACRAuxBo.template
+DB += ACRAuxLi.template
+DB += ACRAuxRead.template
+DB += ACRAux.template
+
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
 # <anyname>_template = <templatename>
