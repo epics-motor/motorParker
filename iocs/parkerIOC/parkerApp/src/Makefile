@@ -21,12 +21,14 @@ parker_DBD += base.dbd
 # Include dbd files from all support applications:
 #ifdef ASYN
 parker_DBD += asyn.dbd
+parker_DBD += drvAsynSerialPort.dbd
+parker_DBD += drvAsynIPPort.dbd
 #endif
 parker_DBD += motorSupport.dbd
-parker_DBD += devParker.dbd
+parker_DBD += ParkerSupport.dbd
 
 # Add all the support libraries needed by this IOC
-parker_LIBS += parker
+parker_LIBS += Parker
 parker_LIBS += motor
 #ifdef ASYN
 parker_LIBS += asyn

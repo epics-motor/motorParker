@@ -1,8 +1,5 @@
 #!../../bin/linux-x86_64/parker
 
-## You may have to change parker to something else
-## everywhere it appears in this file
-
 < envPaths
 
 cd "${TOP}"
@@ -11,11 +8,20 @@ cd "${TOP}"
 dbLoadDatabase "dbd/parker.dbd"
 parker_registerRecordDeviceDriver pdbbase
 
-## Load record instances
-#dbLoadRecords("db/xxx.db","user=kpetersn")
-
 cd "${TOP}/iocBoot/${IOC}"
+
+## motorUtil (allstop & alldone)
+dbLoadRecords("$(MOTOR)/db/motorUtil.db", "P=parker:")
+
+## 
+< PC6K.cmd
+
 iocInit
 
-## Start any sequence programs
-#seq sncxxx,"user=kpetersn"
+## motorUtil (allstop & alldone)
+motorUtilInit("parker:")
+
+# Create source files before uncommenting following line
+#!< PC6K-postInit.cmd
+
+# Boot complete
