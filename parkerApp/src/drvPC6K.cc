@@ -116,7 +116,7 @@ volatile double drvPC6KReadbackDelay = 0.;
 
 /* NOTICE !!!! Command order must match drvPC6K.h/PC6K_query_types !!!! */
 static struct {
-  char *cmnd;
+  const char *cmnd;
   int  cmndLen;
 } queryOps[]= {{CMD_STATUS, 0}, {CMD_POS, 0}, {CMD_EA_POS, 0}, {CMD_VEL, 0}, {CMD_DRIVE, 0}};
 
@@ -145,10 +145,10 @@ static socketStruct socketStructs[MAX_SOCKETS];
 
 /*----------------functions-----------------*/
 static int recv_mess(int card, char *com, int flag);
-static RTN_STATUS send_mess(int card, char const *, char *name);
-static int send_recv_mess(int card, char const *send_com, char *recv_com);
-static int send_recv_mess(int card, char const *send_com, char *recv_com, 
-			  char const *temp_eos);
+static RTN_STATUS send_mess(int card, const char *, const char *name);
+static int send_recv_mess(int card, const char *send_com, char *recv_com);
+static int send_recv_mess(int card, const char *send_com, char *recv_com,
+			  const char *temp_eos);
 static int set_status(int card, int signal);
 static long report(int level);
 static long init();
@@ -431,7 +431,7 @@ static int set_status(int card, int signal)
 	nodeptr->postmsgptr != 0)
     {
         strncpy(send_buff, nodeptr->postmsgptr, 80);
-	send_mess(card, send_buff, (char*) NULL);
+	send_mess(card, send_buff, NULL);
 	nodeptr->postmsgptr = NULL;
     }
 
@@ -445,12 +445,12 @@ exit:
 /* send_receive a message to the PC6K board	     */
 /* send_recv_mess()		                     */
 /*****************************************************/
-static int send_recv_mess(int card, char const *send_com, char *recv_com)
+static int send_recv_mess(int card, const char *send_com, char *recv_com)
 {
   return(send_recv_mess(card, send_com, recv_com, NULL));
 }
 
-static int send_recv_mess(int card, char const *send_com, char *recv_com,
+static int send_recv_mess(int card, const char *send_com, char *recv_com,
 			  const char *temp_eos)
 {
     struct PC6KController *cntrl;
@@ -514,7 +514,7 @@ static int send_recv_mess(int card, char const *send_com, char *recv_com,
 /* send a message to the PC6K board		     */
 /* send_mess()			                     */
 /*****************************************************/
-static RTN_STATUS send_mess(int card, char const *com, char *name)
+static RTN_STATUS send_mess(int card, const char *com, const char *name)
 {
     struct PC6KController *cntrl;
     int size;
@@ -704,12 +704,12 @@ PC6KUpLoad(int card,               /* Controller Number */
 	/* Copy file into PC6K Program */
 	sprintf(nextLine, "DEL %s", progName);
 	// recvCnt = send_recv_mess(card, nextLine, replyBuff);
-	send_mess(card, nextLine, (char*) NULL);
+	send_mess(card, nextLine, NULL);
 	// eos_ptr = eos_str;
 	sprintf(nextLine, "DEF %s", progName);
 	// recvCnt = send_recv_mess(card, nextLine, replyBuff, eos_ptr);
 	// recvCnt = send_recv_mess(card, nextLine, replyBuff);
-	send_mess(card, nextLine, (char*) NULL);
+	send_mess(card, nextLine, NULL);
       }
 
     while (fgets(nextLine, BUFF_SIZE, fd) != NULL)
@@ -721,7 +721,7 @@ PC6KUpLoad(int card,               /* Controller Number */
 	
 	// recvCnt = send_recv_mess(card, nextLine, replyBuff, eos_ptr);
 	// recvCnt = send_recv_mess(card, nextLine, replyBuff);
-	send_mess(card, nextLine, (char*) NULL);
+	send_mess(card, nextLine, NULL);
       }
 
     fclose(fd);
@@ -729,7 +729,7 @@ PC6KUpLoad(int card,               /* Controller Number */
     if (progName && strlen(progName))
 	/* End PC6K Program */
         // recvCnt = send_recv_mess(card, "END", replyBuff);
-        send_mess(card, "END", (char*) NULL);
+        send_mess(card, "END", NULL);
 
     return(OK);
 }
@@ -832,7 +832,7 @@ static int motor_init()
 	    } while (!recvCnt && ++retryCnt < 3);
 
 
-	    /* send_mess(card_index, COMEXEC_ENA, (char*) NULL); */   /* Enable continuous commands */
+	    /* send_mess(card_index, COMEXEC_ENA, NULL); */   /* Enable continuous commands */
 	    send_recv_mess(card_index, COMEXEC_ENA, buff);   /* Enable continuous commands */
 	    // send_recv_mess(card_index, CMD_SCALE, buff);     /* Enable scaling  - unary */
 
