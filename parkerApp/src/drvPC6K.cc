@@ -116,7 +116,7 @@ volatile double drvPC6KReadbackDelay = 0.;
 
 /* NOTICE !!!! Command order must match drvPC6K.h/PC6K_query_types !!!! */
 static struct {
-  char *cmnd;
+  const char *cmnd;
   int  cmndLen;
 } queryOps[]= {{CMD_STATUS, 0}, {CMD_POS, 0}, {CMD_EA_POS, 0}, {CMD_VEL, 0}, {CMD_DRIVE, 0}};
 
@@ -145,7 +145,7 @@ static socketStruct socketStructs[MAX_SOCKETS];
 
 /*----------------functions-----------------*/
 static int recv_mess(int card, char *com, int flag);
-static RTN_STATUS send_mess(int card, char const *, char *name);
+static RTN_STATUS send_mess(int card, const char *, const char *name);
 static int send_recv_mess(int card, char const *send_com, char *recv_com);
 static int send_recv_mess(int card, char const *send_com, char *recv_com, 
 			  char const *temp_eos);
@@ -514,7 +514,7 @@ static int send_recv_mess(int card, char const *send_com, char *recv_com,
 /* send a message to the PC6K board		     */
 /* send_mess()			                     */
 /*****************************************************/
-static RTN_STATUS send_mess(int card, char const *com, char *name)
+static RTN_STATUS send_mess(int card, const char *com, const char *name)
 {
     struct PC6KController *cntrl;
     int size;
