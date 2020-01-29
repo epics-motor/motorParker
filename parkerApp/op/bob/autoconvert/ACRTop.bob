@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>ACRTop</name>
+  <x>115</x>
+  <y>148</y>
+  <width>275</width>
+  <height>75</height>
+  <background_color>
+    <color red="187" green="187" blue="187">
+    </color>
+  </background_color>
+  <grid_visible>false</grid_visible>
+  <grid_step_x>5</grid_step_x>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #6</name>
+    <actions>
+      <action type="open_display">
+        <file>motorx_all.opi</file>
+        <macros>
+          <M>m1</M>
+          <P>IOC:</P>
+        </macros>
+        <target>tab</target>
+        <description>Motor #1</description>
+      </action>
+      <action type="open_display">
+        <file>motorx_all.opi</file>
+        <macros>
+          <M>m2</M>
+          <P>IOC:</P>
+        </macros>
+        <target>tab</target>
+        <description>Motor #2</description>
+      </action>
+      <action type="open_display">
+        <file>ACRAux.opi</file>
+        <macros>
+          <M1>m1:</M1>
+          <P>IOC:</P>
+          <R>ACR1:</R>
+        </macros>
+        <target>tab</target>
+        <description>Auxillary params</description>
+      </action>
+      <action type="open_display">
+        <file>asynRecord.opi</file>
+        <macros>
+          <P>IOC:</P>
+          <R>asyn1</R>
+        </macros>
+        <target>tab</target>
+        <description>asyn record #1</description>
+      </action>
+      <action type="open_display">
+        <file>asynRecord.opi</file>
+        <macros>
+          <P>IOC:</P>
+          <R>asyn2</R>
+        </macros>
+        <target>tab</target>
+        <description>asyn record #2</description>
+      </action>
+    </actions>
+    <text>More</text>
+    <x>91</x>
+    <y>40</y>
+    <width>93</width>
+    <height>23</height>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #13</name>
+    <text>Parker ACR Top-level</text>
+    <x>17</x>
+    <y>5</y>
+    <width>240</width>
+    <height>25</height>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <auto_size>true</auto_size>
+  </widget>
+</display>
