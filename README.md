@@ -1,6 +1,6 @@
 # motorParker
 EPICS motor drivers for the following [Parker Hannifin](http://www.parkermotion.com/) controllers:<br>
-6K Series controllers and ACR series of controllers, including the Aries
+6K Series controllers, ACR and series controllers and OEM series controllers, including the Aries
 
 [![Build Status](https://github.com/epics-motor/motorParker/actions/workflows/ci-scripts-build.yml/badge.svg)](https://github.com/epics-motor/motorParker/actions/workflows/ci-scripts-build.yml)
 <!--[![Build Status](https://travis-ci.org/epics-motor/motorParker.png)](https://travis-ci.org/epics-motor/motorParker)-->

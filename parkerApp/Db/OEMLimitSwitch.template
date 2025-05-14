@@ -1,0 +1,28 @@
+# Select Limit Switch to Reset Absolute Position to Zero
+record(bo,"$(P)$(R)SelectSwitch") {
+    field(DESC, "Set Limit Switch to Reset Position")
+    field(DTYP,"asynInt32")
+    field(OUT,"@asyn($(PORT),$(ADDR))OEM_SELECT_SWITCH")
+    field(ZNAM, "Switch CCW")
+    field(ONAM, "Switch CW")
+}
+
+record(bi,"$(P)$(R)SelectSwitch_RBV") {
+    field(DESC, "Read Limit Switch to Reset Position")
+    field(DTYP,"asynInt32")
+    field(INP,"@asyn($(PORT),$(ADDR))OEM_SELECT_SWITCH")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "Switch CCW")
+    field(ONAM, "Switch CW")
+}
+
+# Read Limit Switch Detected
+record(mbbi,"$(P)$(R)SwitchDetected_RBV") {
+    field(DESC, "Read Limit Switch Detected")
+    field(DTYP,"asynInt32")
+    field(INP,"@asyn($(PORT),$(ADDR))OEM_SWITCH_DETEC")
+    field(SCAN, "I/O Intr")
+    field(ZRST, "None")         field(ZRVL, "0")
+    field(ONST, "Limit CCW")    field(ONVL, "1")
+    field(TWST, "Limit CW")     field(TWVL, "2")
+}

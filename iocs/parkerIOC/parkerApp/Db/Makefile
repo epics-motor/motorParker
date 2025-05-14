@@ -20,6 +20,7 @@ DB_INSTALLS += $(MOTOR_PARKER)/db/ACRAuxBo.template
 DB_INSTALLS += $(MOTOR_PARKER)/db/ACRAuxLi.template
 DB_INSTALLS += $(MOTOR_PARKER)/db/ACRAuxRead.template
 DB_INSTALLS += $(MOTOR_PARKER)/db/ACRAux.template
+DB_INSTALLS += $(MOTOR_PARKER)/db/OEMLimitSwitch.template
 else
 ### this module was built inside motor/modules
 DB_INSTALLS += $(MOTOR)/db/ACRAuxBi.template
@@ -28,6 +29,7 @@ DB_INSTALLS += $(MOTOR)/db/ACRAuxBo.template
 DB_INSTALLS += $(MOTOR)/db/ACRAuxLi.template
 DB_INSTALLS += $(MOTOR)/db/ACRAuxRead.template
 DB_INSTALLS += $(MOTOR)/db/ACRAux.template
+DB_INSTALLS += $(MOTOR)/db/OEMLimitSwitch.template
 endif
 
 #----------------------------------------------------

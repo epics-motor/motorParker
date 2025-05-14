@@ -1,0 +1,17 @@
+file "$(MOTOR)/db/basic_asyn_motor.db"
+{
+pattern
+{P,     N,  M,        DTYP,         PORT,  ADDR,  DESC,          EGU,  DIR,  VELO,  VBAS,  ACCL,  BDST,  BVEL,  BACC,  MRES,                PREC,  DHLM,  DLLM,  INIT}
+{IOC:,  1,  "m$(N)",  "asynMotor",  OEM,  0,     "motor $(N)",  rev,   Pos,  5,     1,      10,    0,     0,    0,      1.96850394e-5,       5,     20,    -20,    ""}
+{IOC:,  2,  "m$(N)",  "asynMotor",  OEM,  1,     "motor $(N)",  rev,   Pos,  5,     1,      10,    0,     0,    0,      1.96850394e-5,       5,     20,    -20,    ""}
+{IOC:,  3,  "m$(N)",  "asynMotor",  OEM,  2,     "motor $(N)",  rev,   Pos,  5,     1,      10,    0,     0,    0,      1.96850394e-5,       5,     20,    -20,    ""}
+}
+
+file "$(TOP)/db/OEMLimitSwitch.template"
+{
+pattern
+{P,       R,  PORT,  ADDR}
+{IOC:,  m1:,  OEM,  0}
+{IOC:,  m2:,  OEM,  1}
+{IOC:,  m3:,  OEM,  2}
+}
