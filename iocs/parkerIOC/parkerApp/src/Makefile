@@ -29,7 +29,6 @@ parker_DBD += ParkerSupport.dbd
 parker_LIBS += Parker
 parker_LIBS += motor
 parker_LIBS += asyn
-parker_LIBS += seq pv
 
 # parker_registerRecordDeviceDriver.cpp derives from parker.dbd
 parker_SRCS += parker_registerRecordDeviceDriver.cpp
