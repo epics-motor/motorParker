@@ -1,6 +1,5 @@
-MODULES="sncseq ipac asyn autosave busy motor"
+MODULES="ipac asyn autosave busy motor"
 
-SNCSEQ=R2-2-9
 IPAC=master
 ASYN=R4-42
 AUTOSAVE=R5-10-2
