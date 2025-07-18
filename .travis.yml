@@ -12,8 +12,6 @@ cache:
 env:
   global:
     - SETUP_PATH=.ci-local:.ci
-    # for the sequencer on Windows
-    - CHOCO=re2c
 
 addons:
   apt:
@@ -30,9 +28,6 @@ addons:
     # for RTEMS cross builds
     - qemu-system-x86
   homebrew:
-    packages:
-    # for the sequencer
-    - re2c
     update: true
 
 install:
