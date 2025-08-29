@@ -11,6 +11,7 @@ May 27, 2025
 #include <vector>
 #include <string>
 #include <cmath>
+#include <iostream>
 
 #include "asynMotorController.h"
 #include "asynMotorAxis.h"
@@ -20,6 +21,7 @@ using namespace std;
 /** drvInfo strings for extra parameters that the ACR controller supports */
 #define         OEMSelectSwitchString         "OEM_SELECT_SWITCH"
 #define         OEMSwitchDetectedString       "OEM_SWITCH_DETEC"
+#define         OEMResolutionString           "OEM_RESOLUTION"
 
 class epicsShareClass OEMAxis : public asynMotorAxis
 {
@@ -32,6 +34,8 @@ public:
   asynStatus stop(double acceleration);
   asynStatus poll(bool *moving);
   asynStatus setClosedLoop(bool closedLoop);
+
+  asynStatus configureController();
 
 private:
   OEMController *pC_;      /**< Pointer to the asynMotorController to which this axis belongs.
@@ -61,6 +65,7 @@ protected:
 private:
   int OEMSelectSwitch_;
   int OEMSwitchDetected_;
+  int OEMResolution_;
   
 friend class OEMAxis;
 };

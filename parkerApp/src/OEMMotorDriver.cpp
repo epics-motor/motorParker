@@ -47,6 +47,7 @@ OEMController::OEMController(const char *portName, const char *OEMPortName, int 
   // Create controller-specific parameters
   createParam(OEMSelectSwitchString,        asynParamInt32,         &OEMSelectSwitch_);
   createParam(OEMSwitchDetectedString,      asynParamInt32,         &OEMSwitchDetected_);
+  createParam(OEMResolutionString,          asynParamInt32,         &OEMResolution_);
 
   /* Connect to OEM controller */
   status = pasynOctetSyncIO->connect(OEMPortName, 0, &pasynUserController_, NULL);
@@ -136,6 +137,12 @@ asynStatus OEMController::writeInt32(asynUser *pasynUser, epicsInt32 value)
   /* Call base class method */
   status = asynMotorController::writeInt32(pasynUser, value);
   
+  if(function == OEMResolution_) {
+    sprintf(outString_, "%iMR%i", pAxis->address_, value);
+    status = writeReadController();
+    pAxis->pulsesPerUnit_ = (double)value;
+  }
+
   /* Do callbacks so higher layers see any changes */
   callParamCallbacks(pAxis->axisNo_);
   if (status) 
@@ -166,14 +173,6 @@ asynStatus OEMController::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
   
   /* Set the parameter and readback in the parameter library. */
   status = setDoubleParam(pAxis->axisNo_, function, value);
-  
-  if(function == motorRecResolution_) {
-    int resolution = 0;
-    resolution = static_cast<int>(ceil(pow(value,-1)));
-    sprintf(outString_, "%iMR%i", pAxis->address_, resolution);
-    status = writeReadController();
-    pAxis->pulsesPerUnit_ = (double)value;
-  }
 
   /* Call base class method */
   status = asynMotorController::writeFloat64(pasynUser, value);
@@ -206,16 +205,7 @@ OEMAxis::OEMAxis(OEMController *pC, int axisNo)
 
   address_ = axisNo + 1;
 
-  sprintf(pC_->outString_, "%iE", address_);
-  status = pC_->writeReadController();
-
-  sprintf(pC_->outString_, "%iSSA0", address_);
-  status = pC_->writeReadController();
-
-  sprintf(pC_->outString_, "%iMPA", address_);
-  status = pC_->writeReadController();
-
-  pC_->getDoubleParam(axisNo_, pC_->motorRecResolution_, &pulsesPerUnit_); //MR command to reading does not work!
+  configureController();
 
   if (status) {
     asynPrint(pC_->pasynUserSelf, ASYN_TRACE_ERROR, 
@@ -245,10 +235,10 @@ asynStatus OEMAxis::move(double position, int relative, double minVelocity, doub
   sprintf(pC_->outString_, "%iMN", address_);
   status = pC_->writeReadController();
 
-  sprintf(pC_->outString_, "%iA%.2f", address_, maxVelocity/acceleration);
+  sprintf(pC_->outString_, "%iA%.2f", address_, (maxVelocity-minVelocity)/acceleration);
   status = pC_->writeReadController();
 
-  sprintf(pC_->outString_, "%iV%.2f", address_, maxVelocity*pulsesPerUnit_);
+  sprintf(pC_->outString_, "%iV%.2f", address_, maxVelocity/pulsesPerUnit_);
   status = pC_->writeReadController();
 
   sprintf(pC_->outString_, "%iD%.0f", address_, position);
@@ -264,11 +254,11 @@ asynStatus OEMAxis::home(double minVelocity, double maxVelocity, double accelera
 {
   asynStatus status = asynSuccess;
   static const char *functionName = "homeAxis";
-  
+
   sprintf(pC_->outString_, "%iMC", address_);
   status = pC_->writeReadController();
 
-  sprintf(pC_->outString_, "%iV%.2f", address_, maxVelocity*pulsesPerUnit_);
+  sprintf(pC_->outString_, "%iV%.2f", address_, maxVelocity/pulsesPerUnit_);
   status = pC_->writeReadController();
 
   if(forwards) {
@@ -307,6 +297,30 @@ asynStatus OEMAxis::setClosedLoop(bool closedLoop)
   return status;
 }
 
+asynStatus OEMAxis::configureController() {
+  asynStatus status = asynSuccess;
+  static const char *functionName = "configureController";
+
+  sprintf(pC_->outString_, "%iE", address_);
+  if (status) goto skip;
+  status = pC_->writeReadController();
+
+  sprintf(pC_->outString_, "%iSSA0", address_);
+  if (status) goto skip;
+  status = pC_->writeReadController();
+
+  sprintf(pC_->outString_, "%iMPA", address_);
+  if (status) goto skip;
+  status = pC_->writeReadController();
+
+  sprintf(pC_->outString_, "%iMR%i", address_, (int)pulsesPerUnit_);
+  if (status) goto skip;
+  status = pC_->writeReadController();
+
+  skip:
+  return status;
+}
+
 /** Polls the axis.
   * This function reads the controller position, encoder position, the limit status, the moving status, 
   * and the drive power-on status.  It does not current detect following error, etc. but this could be
@@ -319,6 +333,9 @@ asynStatus OEMAxis::poll(bool *moving)
   asynStatus comStatus = asynSuccess;
   int selectSwitch, switchDetector;
   int done;
+
+  comStatus = configureController();
+  if (comStatus) goto skip;
 
   // Read the current flags
   sprintf(pC_->outString_, "%iR", address_);

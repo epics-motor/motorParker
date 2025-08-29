@@ -19,7 +19,7 @@ DB += ACRAuxLi.template
 DB += ACRAuxRead.template
 DB += ACRAux.template
 
-DB += OEMLimitSwitch.template
+DB += OEMSupport.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

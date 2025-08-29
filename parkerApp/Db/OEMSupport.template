@@ -26,3 +26,21 @@ record(mbbi,"$(P)$(R)SwitchDetected_RBV") {
     field(ONST, "Limit CCW")    field(ONVL, "1")
     field(TWST, "Limit CW")     field(TWVL, "2")
 }
+
+# Define Motor Resolution
+record(longout,"$(P)$(R)Resolution") {
+    field(DESC, "Set the number of steps/revolution")
+    field(DTYP,"asynInt32")
+    field(VAL, "$(RESOLUTION)")
+    field(PINI, "YES")
+    field(EGU, "step/rev")
+    field(OUT,"@asyn($(PORT),$(ADDR))OEM_RESOLUTION")
+}
+
+record(longin,"$(P)$(R)Resolution_RBV") {
+    field(DESC, "Read the number of steps/revolution")
+    field(DTYP,"asynInt32")
+    field(EGU, "step/rev")
+    field(INP,"@asyn($(PORT),$(ADDR))OEM_RESOLUTION")
+    field(SCAN, "I/O Intr")
+}
