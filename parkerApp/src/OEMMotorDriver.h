@@ -41,10 +41,9 @@ private:
   OEMController *pC_;      /**< Pointer to the asynMotorController to which this axis belongs.
                                 *   Abbreviated because it is used very frequently */
   int address_;
-  int posCounterZero_;
+  int homed = 0;
   double pulsesPerUnit_;
   double encoderPosition, encoderStep;
-  vector<string> currentLimitSwitch_ = {"*J", "*E"};
   
 friend class OEMController;
 };

@@ -247,6 +247,8 @@ asynStatus OEMAxis::move(double position, int relative, double minVelocity, doub
   sprintf(pC_->outString_, "%iG", address_);
   status = pC_->writeReadController();
 
+  homed = 0;
+
   return status;
 }
 
@@ -271,6 +273,8 @@ asynStatus OEMAxis::home(double minVelocity, double maxVelocity, double accelera
 
   sprintf(pC_->outString_, "%iG", address_);
   status = pC_->writeReadController();
+
+  homed = 1;
 
   return status;
 }
@@ -366,6 +370,10 @@ asynStatus OEMAxis::poll(bool *moving)
     encoderStep = (double)stol(pC_->inString_+1, nullptr, 16);
     if(strstr(pC_->inString_, "*F") != nullptr) {
       encoderStep -= 4294967296;
+      setIntegerParam(pC_->motorStatusDirection_, 0);
+    }
+    else {
+      setIntegerParam(pC_->motorStatusDirection_, 1);
     }
     setDoubleParam(pC_->motorEncoderPosition_, (encoderPosition+encoderStep));
     setDoubleParam(pC_->motorPosition_, (encoderPosition+encoderStep));
@@ -376,25 +384,38 @@ asynStatus OEMAxis::poll(bool *moving)
   comStatus = pC_->writeReadController();
   if (comStatus) goto skip;
   comStatus = pC_->readController();
-
-  //Read limit switch (CW and CCW)
-  sprintf(pC_->outString_, "%iRA", address_);
-  comStatus = pC_->writeReadController();
-  if (comStatus) goto skip;
-  comStatus = pC_->readController();
-  if (strcmp(pC_->inString_, currentLimitSwitch_[0].c_str()) == 0) {
+  if ((pC_->inString_[6]-'0') == 1) {
     setIntegerParam(pC_->OEMSwitchDetected_, 1);
   }
-  else if (strcmp(pC_->inString_, currentLimitSwitch_[1].c_str()) == 0) {
+  else if ((pC_->inString_[7]-'0')  == 1) {
     setIntegerParam(pC_->OEMSwitchDetected_, 2);
   }
   else {
     setIntegerParam(pC_->OEMSwitchDetected_, 0);
   }
+  // Motor status and reset enconder position for select Switch
   pC_->getIntegerParam(axisNo_, pC_->OEMSelectSwitch_, &selectSwitch);
-  if (strcmp(pC_->inString_, currentLimitSwitch_[selectSwitch].c_str()) == 0 && encoderPosition != 0) {
-    sprintf(pC_->outString_, "%iPZ", address_);
-    comStatus = pC_->writeReadController();
+  pC_->getIntegerParam(axisNo_, pC_->OEMSwitchDetected_, &switchDetector);
+  if (switchDetector > 0) {
+    if (selectSwitch == (switchDetector-1)) {
+      if (homed) {
+        sprintf(pC_->outString_, "%iPZ", address_);
+        comStatus = pC_->writeReadController();
+        setIntegerParam(pC_->motorStatusHomed_, 1);
+      }
+      setIntegerParam(pC_->motorStatusLowLimit_, 1);
+      setIntegerParam(pC_->motorStatusAtHome_, 1);
+      setIntegerParam(pC_->motorStatusHome_, 1);
+    }
+    else {
+      setIntegerParam(pC_->motorStatusHighLimit_, 1);
+    }
+  }
+  else {
+    setIntegerParam(pC_->motorStatusHighLimit_, 0);
+    setIntegerParam(pC_->motorStatusLowLimit_, 0);
+    setIntegerParam(pC_->motorStatusAtHome_, 0);
+    setIntegerParam(pC_->motorStatusHome_, 0);
   }
 
   skip:
