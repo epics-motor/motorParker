@@ -1,0 +1,17 @@
+file "$(MOTOR)/db/basic_asyn_motor.db"
+{
+pattern
+{P,     N,  M,        DTYP,         PORT,  ADDR,  DESC,          EGU,  DIR,  VELO,  VBAS,  ACCL,  BDST,  BVEL,  BACC,  MRES,                PREC,  DHLM,  DLLM,  INIT}
+{IOC:,  1,  "m$(N)",  "asynMotor",  OEM,  0,     "motor $(N)",   mm,   Pos,  5,     1,      5,    0,     0,    0,      4.92125984e-5,       5,     20,    -20,    ""}
+{IOC:,  2,  "m$(N)",  "asynMotor",  OEM,  1,     "motor $(N)",   mm,   Pos,  5,     1,      5,    0,     0,    0,      4.92125984e-5,       5,     20,    -20,    ""}
+{IOC:,  3,  "m$(N)",  "asynMotor",  OEM,  2,     "motor $(N)",   mm,   Pos,  5,     1,      5,    0,     0,    0,      4.92125984e-5,       5,     20,    -20,    ""}
+}
+
+file "$(TOP)/db/OEMSupport.template"
+{
+pattern
+{P,       R,  RESOLUTION, PORT,  ADDR}
+{IOC:,  m1:,  50800,     OEM,  0}
+{IOC:,  m2:,  50800,     OEM,  1}
+{IOC:,  m3:,  50800,     OEM,  2}
+}
