@@ -1,5 +1,22 @@
 # motorParker Releases
 
+## __R1-2 (2026-01-22)__
+R1-2 is a release based on the master branch.
+
+### Changes since R1-1-1
+
+#### New features
+* Pull request [#4](https://github.com/epics-motor/motorParker/pull/4): [Guilherme Rodrigues de Lima](https://github.com/guirodrigueslima) added model-3 asyn motor support for OEM series controller
+
+#### Modifications to existing features
+* None
+
+#### Bug fixes
+* Pull request [#5](https://github.com/epics-motor/motorParker/pull/5): [Henrique F. Simões](https://github.com/henriquesimoes) removed unused dependency on sequencer
+
+#### Continuous integration
+* Updated ci-scripts (v3.4.1)
+
 ## __R1-1-1 (2023-04-12)__
 R1-1-1 is a release based on the master branch.
 
