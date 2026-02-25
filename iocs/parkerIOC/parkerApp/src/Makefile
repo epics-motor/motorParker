@@ -24,6 +24,8 @@ parker_DBD += drvAsynSerialPort.dbd
 parker_DBD += drvAsynIPPort.dbd
 parker_DBD += motorSupport.dbd
 parker_DBD += ParkerSupport.dbd
+parker_DBD_Linux += OEMMotorSupport.dbd
+parker_DBD_WIN32 += OEMMotorSupport.dbd
 
 # Add all the support libraries needed by this IOC
 parker_LIBS += Parker
