@@ -35,7 +35,8 @@ Parker_SRCS += devPC6K.cc drvPC6K.cc
 # Parker ACR driver support
 Parker_SRCS += ACRMotorDriver.cpp
 # Parker OEM driver support
-Parker_SRCS += OEMMotorDriver.cpp
+Parker_SRCS_Linux += OEMMotorDriver.cpp
+Parker_SRCS_WIN32 += OEMMotorDriver.cpp
 
 Parker_LIBS += motor 
 Parker_LIBS += asyn
