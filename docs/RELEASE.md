@@ -1,5 +1,13 @@
 # motorParker Releases
 
+## __R1-2-1 (2026-02-26)__
+R1-2-1 is a release based on the master branch.
+
+### Changes since R1-2
+
+#### Bug fixes
+* Pull request [#8](https://github.com/epics-motor/motorParker/pull/8): Don't build OEMDriver on VxWorks
+
 ## __R1-2 (2026-01-22)__
 R1-2 is a release based on the master branch.
 
